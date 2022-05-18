@@ -3,14 +3,16 @@
 
 ------------------------
 
-#### 0. change password
+### 0. change password
 
-for changing password you can modify below files (hdskmms -> new password)
-* .env : ELASTIC_PASSWORD='hdskmms' & LOGSTASH_INTERNAL_PASSWORD='hdskmms'
-* extensions/curator/config/curator.yml : http_auth: 'elastic:hdskmms'
-* extensions/enterprise-search/enterprise-search-compose.yml : ENT_SEARCH_DEFAULT_PASSWORD: 'hdskmms'
+> for changing password you can modify below files <b>(hdskmms -> new password)</b>
+* <b>.env :</b> ELASTIC_PASSWORD='hdskmms' 
+* <b>.env :</b> LOGSTASH_INTERNAL_PASSWORD='hdskmms'
+* <b>extensions/curator/config/curator.yml :</b> http_auth: 'elastic:hdskmms'
+* <b>extensions/enterprise-search/enterprise-search-compose.yml :</b> ENT_SEARCH_DEFAULT_PASSWORD: 'hdskmms'
 
-#### 1. /etc/hosts setting
+  
+### 1. /etc/hosts setting
 
 ```
 0.0.0.0 kafka
@@ -18,14 +20,14 @@ for changing password you can modify below files (hdskmms -> new password)
 ```
 
 
-#### 2. this command will deploy ELK/akhq/zookeeper/kafka(1broker) on WSL2 Ubuntu
+### 2. this command will deploy ELK/akhq/zookeeper/kafka(1broker) on WSL2 Ubuntu
 
 
 ```
 docker-compose -f docker-compose.yml up
 ```
 
-#### 3. when finished, run sample web application generating fake web log
+### 3. when finished, run sample web application generating fake web log
 
 > (refer : https://github.com/kiritbasu/Fake-Apache-Log-Generator)
 
@@ -33,12 +35,12 @@ docker-compose -f docker-compose.yml up
 docker-compose -f docker-compose-data-pipeline-application.yml up
 ```
 
-#### 4. open docker container 
+### 4. open docker container 
 ```
 docker exec -it <CONTAINER ID> /bin/bash
 ```
 
-#### 5. set filebeat
+### 5. set filebeat
 
 1) fake logs are stored in /log_generator/access_log_YYYYMMDD-XXXXXX.log
 2) open filebeat.yml file in "/filebeat-7.15.1-linux-x86_64"
@@ -62,6 +64,10 @@ output.kafka:
   compression: gzip
 ```
 
+
+-------------------------------------------
+
+
 #### extra. if kafka/zookeeper sync error occurs 
 
 ```
@@ -70,7 +76,7 @@ rm -rf kafka zookeeper
 
 #### extra. if logstash is unable to resolve DNS 'kafka', try to change below manifest
 
-docker-compose.yml
+> <b>docker-compose.yml</b>
 ```
       #내부 IP/DNS/PORT
       KAFKA_LISTENERS: PLAINTEXT://kafka:9092
