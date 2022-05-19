@@ -68,11 +68,14 @@ cd /filebeat-7.15.1-linux-x86_64
 ./filebeat
 ```
 
-if error occurs check your /etc/hosts file
+if error occurs check your <b>/etc/hosts</b> file. <br/>
 make sure you have below host info
 ```
 0.0.0.0 kafka
 ```
+
+----------------------------------
+
 
 #### extra. if kafka/zookeeper sync error occurs 
 
