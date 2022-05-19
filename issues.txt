@@ -1,0 +1,46 @@
+[에러 발생]
+
+[Apache kafka: Failed to acquire lock on file .lock in tmp/kafka-logs]
+=> just delete directory /tmp/kafka-logs and try again
+
+[error getting credentials - err: exec: “docker-credential-desktop.exe”: executable file not found in $PATH, out: ``]
+=> In ~/.docker/config.json change credsStore to credStore
+
+[Error response from daemon: error while creating mount source path '/run/desktop/mnt/host/wsl/docker-desktop-bind-mounts/Ubuntu-18.04/d0b0d6435226e41a0c67aa91957799940be2c8d91a90e20e2b03b5880c266c36': mkdir /run/desktop/mnt/host/wsl/docker-desktop-bind-mounts/Ubuntu-18.04/d0b0d6435226e41a0c67aa91957799940be2c8d91a90e20e2b03b5880c266c36: file exists]
+=> docker 데스크탑 재기동
+
+
+[docker-compose-confluent-cluster.yml 파일 수정]
+=> KAFKA_LOG_DIRS 및 volumes를 "/tmp/kafka-logs"로 변경
+=> local에서는 1개 broker만 실행 가능
+
+  kafka-1:
+    image: confluentinc/cp-kafka:6.2.0
+    hostname: kafka1
+    depends_on:
+      - zookeeper-1
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper1:12181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka1:19092
+      KAFKA_LOG_DIRS: /tmp/kafka-logs
+    ports:
+      - 19092:19092
+    volumes:
+      - ./kafka/logs/1:/tmp/kafka-logs
+
+[/etc/hosts에 아래 추가]
+0.0.0.0 zookeeper1
+0.0.0.0 kafka1
+
+[docker-compose 실행 시 설정하지 않은 container 있을 시 --remove orphans 옵션 추가]
+=> docker-compose -f test.yml up --remove-orphans
+
+[kafka container image 설정]
+
+*WSL2에서 정상동작
+image: wurstmeister/zookeeper 
+
+*WSL2에서 replication factor error
+image: confluentinc/cp-zookeeper:6.2.0
+
