@@ -62,6 +62,18 @@ output.kafka:
   compression: gzip
 ```
 
+4) start filebeat 
+```
+cd /filebeat-7.15.1-linux-x86_64
+./filebeat
+```
+
+if error occurs check your /etc/hosts file
+make sure you have below host info
+```
+0.0.0.0 kafka
+```
+
 #### extra. if kafka/zookeeper sync error occurs 
 
 ```
@@ -77,6 +89,8 @@ docker-compose.yml
       #외부 IP/DNS/PORT
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092          
 ```
+
+
 
 #### IP:Port
 ```
